@@ -11,6 +11,8 @@ export interface ISeed {
   deletedAt?: Date | null;
 }
 
+export type ISeedNew = Omit<ISeed, '_id' | 'createdAt' | 'updatedAt'>;
+
 const SeedSchema = new Schema<ISeed>(
   {
     name: {
