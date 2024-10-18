@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Seed, { ISeedNew } from '@/models/Seed';
-import { connectToMongoDB } from '../../../lib/mongodb';
+import { connectToMongoDB } from '../../../../lib/mongodb';
 
 export async function GET() {
   await connectToMongoDB();

@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "app",
         "dev",
-        "database"
+        "database",
+        "api"
     ]
 }
