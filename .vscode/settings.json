@@ -3,6 +3,7 @@
         "app",
         "dev",
         "database",
-        "api"
+        "api",
+        "auth"
     ]
 }

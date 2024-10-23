@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import AuthProvider from '@/auth/components/AuthProvider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -14,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'AAirline',
-  description: 'Timetable for AAirline',
+  title: 'A-Airline',
+  description: 'Timetable for A-Airline',
 };
 
 export default function RootLayout({
@@ -24,12 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

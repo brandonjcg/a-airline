@@ -1,5 +1,6 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { ISeed } from '@/models';
+import { getUserServerSession } from '@/auth/actions/auth-actions';
 
 const getSeeds = async (): Promise<ISeed[]> => {
   try {
@@ -18,15 +19,14 @@ const getSeeds = async (): Promise<ISeed[]> => {
 };
 
 export default async function Home() {
+  const user = await getUserServerSession();
+  if (!user) redirect('api/auth/signin');
+
   const data = await getSeeds();
   return (
     <div>
       <h1>Seed</h1>
-      <ul>
-        {data.map((seed) => (
-          <li key={seed._id}>{seed.name}</li>
-        ))}
-      </ul>
+      <ul>{data?.map((seed) => <li key={seed._id}>{seed.name}</li>)}</ul>
     </div>
   );
 }

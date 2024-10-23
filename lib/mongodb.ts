@@ -1,25 +1,25 @@
-import mongoose, { Connection } from 'mongoose';
+import { Db, MongoClient } from 'mongodb';
 
-const { MONGODB_URI } = process.env;
+if (!process.env.MONGODB_URI)
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 
-if (!MONGODB_URI) throw new Error('🔴 Hey Mr. Developer, please add .env file');
+const uri = process.env.MONGODB_URI;
 
-let cachedConnection: Connection | null = null;
+let cachedClient: MongoClient | null = null;
 
-export const connectToMongoDB = async (): Promise<Connection> => {
-  if (cachedConnection) return cachedConnection;
+export async function connectDB(): Promise<MongoClient> {
+  if (cachedClient) return cachedClient;
 
   try {
-    const { connection } = await mongoose.connect(MONGODB_URI);
+    cachedClient = await MongoClient.connect(uri);
 
-    if (connection.readyState !== 1)
-      throw new Error('🔴 Database connection failed');
-
-    cachedConnection = connection;
-
-    return connection;
+    return cachedClient as MongoClient;
   } catch (error) {
-    console.error('🔴 Database connection error:', error);
     throw error;
   }
-};
+}
+
+export async function getDatabase(): Promise<Db> {
+  const client: MongoClient = await connectDB();
+  return client.db();
+}

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import Seed, { ISeedNew } from '@/models/Seed';
-import { connectToMongoDB } from '../../../../lib/mongodb';
+import { ISeed, ISeedNew } from '@/models/Seed';
+import { getDatabase } from '../../../../lib/mongodb';
 
 export async function GET() {
-  await connectToMongoDB();
   try {
-    const data = await Seed.find();
+    const database = await getDatabase();
+    const data = await database.collection<ISeed>('seeds').find().toArray();
 
     return NextResponse.json({
       data,
@@ -35,8 +35,8 @@ export async function POST() {
   ];
 
   try {
-    await connectToMongoDB();
-    await Seed.insertMany(seed);
+    const database = await getDatabase();
+    await database.collection<ISeedNew>('seeds').insertMany(seed);
 
     return NextResponse.json({
       message: 'Seeds created successfully',

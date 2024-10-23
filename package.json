@@ -1,5 +1,5 @@
 {
-  "name": "aairline",
+  "name": "a-airline",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,9 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.7.2",
     "bcryptjs": "2.4.3",
+    "mongodb": "^6.10.0",
     "mongoose": "8.7.2",
     "next": "14.2.15",
     "next-auth": "4.24.8",
