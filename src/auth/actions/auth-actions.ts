@@ -1,29 +1,31 @@
 import { getServerSession } from 'next-auth';
+import bcrypt from 'bcryptjs';
+import { connectDB } from '@/lib/mongodb';
+import User from '@/models/User';
 import { authOptions } from '@/app/api/auth/[...nextauth]/config';
 
-export const signInUser = async () =>
-  // mail: string, password: string
-  {
-    // if (!email || !password) return null;
-    // const user = await prisma.user.findUnique({ where: { email } });
-    // if (!user) return await createUser(email, password);
-    // const isPasswordValid = bcrypt.compareSync(password, user.password ?? '');
-    // if (!isPasswordValid) return null;
-    // return user;
-  };
+export const signInUser = async (email: string, password: string) => {
+  if (!email || !password) return null;
 
-export const createUser = async () =>
-  // email: string, password: string
-  {
-    // const user = await prisma.user.create({
-    //   data: {
-    //     email,
-    //     password: bcrypt.hashSync(password),
-    //     name: email.split('@')[0],
-    //   },
-    // });
-    // return user;
-  };
+  await connectDB();
+  const user = await User.findOne({ email });
+  if (!user) return await createUser({ email, password });
+
+  const isPasswordValid = bcrypt.compareSync(password, user.password ?? '');
+  if (!isPasswordValid) return null;
+  return user;
+};
+
+export const createUser = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const user = await User.create({ email, password });
+  return user;
+};
 
 export const getUserServerSession = async () => {
   const sesion = await getServerSession(authOptions);

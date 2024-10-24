@@ -1,13 +1,10 @@
-import GoogleProvider from 'next-auth/providers/google';
-import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { connectDB, getDatabase } from '../../../../../lib/mongodb';
-import { IUser, IUserNew } from '@/models/User';
 import { Session, SessionStrategy, User } from 'next-auth';
-import { Adapter } from 'next-auth/adapters';
+import GoogleProvider from 'next-auth/providers/google';
+import UserModel from '@/models/User';
 import { JWT } from 'next-auth/jwt';
+import { connectDB } from '@/lib/mongodb';
 
 export const authOptions = {
-  adapter: MongoDBAdapter(connectDB) as Adapter,
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
@@ -20,6 +17,11 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token }: { token: JWT }) {
+      const userDb = await UserModel.findOne({ email: token.email });
+      if (!userDb) throw new Error('User not found');
+
+      if (userDb.deletedAt) throw new Error('User is not active');
+
       return token;
     },
     async session({ session }: { session: Session }) {
@@ -29,19 +31,19 @@ export const authOptions = {
     },
     async signIn({ user }: { user: User }) {
       try {
-        const database = await getDatabase();
+        await connectDB();
 
-        const userDatabase = await database
-          .collection<IUser>('users')
-          .findOne({ email: user.email! });
+        const userDatabase = await UserModel.findOne({
+          email: user.email,
+        });
 
-        if (!userDatabase) {
-          await database.collection<IUserNew>('users').insertOne({
-            email: user.email!,
-            name: user.name!,
-            image: user.image!,
+        if (!userDatabase)
+          await UserModel.create({
+            email: user.email,
+            name: user.name,
+            image: user.image,
           });
-        }
+
         return true;
       } catch (error) {
         console.log('error', error);

@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
-import { ISeed, ISeedNew } from '@/models/Seed';
-import { getDatabase } from '../../../../lib/mongodb';
+import Seed, { ISeedNew } from '@/models/Seed';
 
 export async function GET() {
   try {
-    const database = await getDatabase();
-    const data = await database.collection<ISeed>('seeds').find().toArray();
+    const data = await Seed.find({ deletedAt: null });
 
     return NextResponse.json({
       data,
@@ -35,8 +33,7 @@ export async function POST() {
   ];
 
   try {
-    const database = await getDatabase();
-    await database.collection<ISeedNew>('seeds').insertMany(seed);
+    await Seed.create(seed);
 
     return NextResponse.json({
       message: 'Seeds created successfully',
