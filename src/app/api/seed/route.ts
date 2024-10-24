@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import Seed, { ISeedNew } from '@/models/Seed';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
