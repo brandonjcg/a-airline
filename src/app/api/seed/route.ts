@@ -1,13 +1,28 @@
-import Seed, { ISeedNew } from '@/models/Seed';
 import { NextResponse } from 'next/server';
+import { connectDB } from '@/lib/mongodb';
+import { flightSeed, seedCatalog } from '@/lib/seed';
+import Flight from '@/models/Flight';
+import Seed from '@/models/Seed';
+import {
+  buildPaginationResponse,
+  buildPaginationToMongoose,
+} from '@/app/common';
 
 export async function GET() {
   try {
-    const data = await Seed.find({ deletedAt: null });
+    await connectDB();
+    const { page, pageSize } = buildPaginationToMongoose();
+    const data = await Seed.find().skip(page).limit(pageSize);
+    const rows = await Seed.countDocuments();
 
-    return NextResponse.json({
-      data,
-    });
+    return NextResponse.json(
+      buildPaginationResponse({
+        page,
+        pageSize,
+        totalRows: rows,
+        data,
+      }),
+    );
   } catch (error) {
     return NextResponse.json({
       error: true,
@@ -17,27 +32,19 @@ export async function GET() {
 }
 
 export async function POST() {
-  const seed: ISeedNew[] = [
-    {
-      name: 'A tiempo',
-      color: 'amarillo',
-      fieldName: 'field1',
-      collectionName: 'collection1',
-    },
-    {
-      name: 'Abordando',
-      color: 'verde',
-      fieldName: 'field2',
-      collectionName: 'collection2',
-    },
-  ];
-
   try {
-    await Seed.create(seed);
+    await connectDB();
 
-    return NextResponse.json({
-      message: 'Seeds created successfully',
-    });
+    await Flight.deleteMany({});
+    await Flight.insertMany(flightSeed);
+    await Seed.deleteMany({});
+    await Seed.insertMany(seedCatalog);
+
+    return NextResponse.json(
+      buildPaginationResponse({
+        message: 'Dummy data seeded successfully',
+      }),
+    );
   } catch (error) {
     return NextResponse.json({
       error: true,

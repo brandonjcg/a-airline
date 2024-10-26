@@ -4,6 +4,7 @@
         "dev",
         "database",
         "api",
-        "auth"
+        "auth",
+        "flight"
     ]
 }
