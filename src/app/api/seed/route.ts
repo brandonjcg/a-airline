@@ -3,10 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import { flightSeed, seedCatalog } from '@/lib/seed';
 import Flight from '@/models/Flight';
 import Seed from '@/models/Seed';
-import {
-  buildPaginationResponse,
-  buildPaginationToMongoose,
-} from '@/app/common';
+import { buildPaginationResponse, buildPaginationToMongoose } from '@/app';
 
 export async function GET() {
   try {

@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import { getSeeds } from '@/app/seeds/actions';
-import { getUserServerSession } from '@/auth/actions/auth-actions';
-import { ISeed } from '@/models';
 import { Metadata } from 'next';
+import { getSeeds } from '@/app';
+import { ISeed } from '@/models';
+import { getUserServerSession } from '@/auth';
 
 export const metadata: Metadata = {
   title: 'Rest ToDos',

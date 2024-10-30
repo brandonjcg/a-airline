@@ -1,5 +1,7 @@
 import mongoose, { Schema, model, Document } from 'mongoose';
+import { z } from 'zod';
 import { ISeed } from './Seed';
+import { IUser } from './User';
 
 export interface IFlight extends Document {
   _id: string;
@@ -9,6 +11,7 @@ export interface IFlight extends Document {
   arrivalTime: Date;
   codeFlight: string;
   gate: string;
+  pilots: mongoose.Types.ObjectId[] | IUser[];
   status: mongoose.Types.ObjectId | ISeed;
   createdAt: Date;
   updatedAt: Date;
@@ -43,9 +46,16 @@ const FlightSchema = new Schema<IFlight>(
       type: String,
       required: [true, 'Gate is required'],
     },
+    pilots: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+    ],
     status: {
       type: Schema.Types.ObjectId,
-      ref: 'Status',
+      ref: 'Seed',
       required: true,
     },
     deletedAt: {
@@ -60,3 +70,13 @@ const FlightSchema = new Schema<IFlight>(
 
 export default mongoose.models?.Flight ||
   model<IFlight>('Flight', FlightSchema);
+
+export const seedSchema = z.object({
+  originCode: z.string(),
+  departureTime: z.string().datetime(),
+  destinationCode: z.string(),
+  arrivalTime: z.string().datetime(),
+  codeFlight: z.string(),
+  gate: z.string(),
+  pilots: z.array(z.string()).nonempty({ message: 'Pilots are required' }),
+});

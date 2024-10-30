@@ -19,7 +19,7 @@ const updatedAt = date;
 export const seedCatalog: ISeed[] = [
   {
     _id: EnumStatus.OnTime,
-    name: 'OnTime',
+    name: 'On time',
     fieldName: 'idEstatus',
     collectionName: 'status',
     color: '#FFC107',
@@ -28,7 +28,7 @@ export const seedCatalog: ISeed[] = [
   },
   {
     _id: EnumStatus.OnBoarding,
-    name: 'OnBoarding',
+    name: 'On boarding',
     fieldName: 'idEstatus',
     collectionName: 'status',
     color: '#4CAF50',
@@ -37,7 +37,7 @@ export const seedCatalog: ISeed[] = [
   },
   {
     _id: EnumStatus.GateClosed,
-    name: 'GateClosed',
+    name: 'Gate closed',
     fieldName: 'idEstatus',
     collectionName: 'status',
     color: '#F44336',
