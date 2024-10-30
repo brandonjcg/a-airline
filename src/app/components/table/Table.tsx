@@ -54,7 +54,7 @@ export function DataTable<T>({
     const fetchData = async () => {
       try {
         const data = await getPageData<T>({
-          url: 'http://localhost:3000/api/flight',
+          url: 'api/flight',
           page: pageIndex,
           size: pageSize,
         });
