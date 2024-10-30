@@ -1,9 +1,9 @@
-'use client';
+import { getUserServerSession } from '@/auth';
+import { redirect } from 'next/navigation';
 
-import { useSession } from 'next-auth/react';
-
-export default function Profile() {
-  const { data: session } = useSession();
+export default async function Profile() {
+  const user = await getUserServerSession();
+  if (!user) redirect('../api/auth/signin');
 
   return (
     <div>
@@ -12,9 +12,9 @@ export default function Profile() {
 
       <div className="flex flex-col">
         <h2>User server side</h2>
-        <span>{session?.user?.email || 'No data'}</span>
-        <span>{session?.user?.name || 'No data'}</span>
-        <span>{session?.user?.image || 'No data'}</span>
+        <span>{user?.email || 'No data'}</span>
+        <span>{user?.name || 'No data'}</span>
+        <span>{user?.image || 'No data'}</span>
       </div>
     </div>
   );

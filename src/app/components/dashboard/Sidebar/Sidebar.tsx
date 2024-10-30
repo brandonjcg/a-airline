@@ -1,11 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getUserServerSession } from '@/auth/actions/auth-actions';
-import {
-  IoAirplaneOutline,
-  IoListOutline,
-  IoPersonOutline,
-} from 'react-icons/io5';
+import { IoAirplaneOutline, IoPersonOutline } from 'react-icons/io5';
 import { LogoutButton } from './LogoutButton';
 import { SidebarItem } from './SidebarItem';
 
@@ -16,13 +12,8 @@ const menuItems = [
     path: '/dashboard',
   },
   {
-    icon: <IoListOutline size={30} />,
-    title: 'Seeds',
-    path: '/dashboard/seeds',
-  },
-  {
     icon: <IoPersonOutline size={30} />,
-    title: 'Profile',
+    title: 'Admin',
     path: '/dashboard/profile',
   },
 ];
@@ -34,6 +25,7 @@ export const Sidebar = async () => {
     email: user?.email || 'No user',
     name: user?.name || 'No user',
     image: user?.image || '',
+    roles: user?.roles || [],
   };
 
   return (
@@ -59,11 +51,11 @@ export const Sidebar = async () => {
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
             alt=""
           />
-          <h5 className="hidden mt-4 text-xl font-semibold text-white lg:block">
+          <h5 className="hidden mt-4 text-xl font-semibold text-black lg:block">
             {infoSession.name}
           </h5>
-          <span className="hidden text-gray-400 lg:block capitalize">
-            {/* {infoSession.roles.join(', ')} */}
+          <span className="hidden text-gray- lg:block capitalize">
+            {infoSession.roles.join(', ')}
           </span>
         </div>
 

@@ -80,7 +80,7 @@ export function DataTable<T>({
                       border: '1px solid black',
                       borderCollapse: 'collapse',
                       padding: '5px',
-                      height: '50px', // Altura fija
+                      height: '50px',
                     }}
                   >
                     {header.isPlaceholder ? null : (
@@ -109,7 +109,7 @@ export function DataTable<T>({
                         border: '1px solid black',
                         borderCollapse: 'collapse',
                         padding: '5px',
-                        height: '50px', // Altura fija
+                        height: '50px',
                       }}
                     >
                       {flexRender(

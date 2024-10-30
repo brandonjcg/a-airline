@@ -25,7 +25,12 @@ export const authOptions = {
       return token;
     },
     async session({ session }: { session: Session }) {
-      session.user = session.user;
+      if (session?.user) {
+        const user = await UserModel.findOne({
+          email: session.user.email!,
+        }).select('roles');
+        session.user.roles = user?.roles || [];
+      }
 
       return session;
     },
@@ -42,6 +47,7 @@ export const authOptions = {
             email: user.email,
             name: user.name,
             image: user.image,
+            roles: ['root'],
           });
 
         return true;

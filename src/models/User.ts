@@ -6,6 +6,7 @@ export interface IUser {
   password?: string;
   name: string;
   image?: string;
+  roles: string[];
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date | null;
@@ -28,6 +29,10 @@ const UserSchema = new Schema<IUser>(
     image: {
       type: String,
       required: [true, 'Image is required'],
+    },
+    roles: {
+      type: [String],
+      default: ['root'],
     },
     deletedAt: {
       type: Date,
