@@ -1,10 +1,10 @@
-import { CiChat1, CiMenuBurger, CiSearch } from 'react-icons/ci';
+import { CiMenuBurger, CiSearch } from 'react-icons/ci';
 
 export const TopMenu = () => {
   return (
     <div className="sticky z-10 top-0 h-16 border-b  lg:py-2.5">
       <div className="px-6 flex items-center justify-between space-x-4">
-        <h5 hidden className="text-2xl text-white font-medium lg:block">
+        <h5 hidden className="text-2xl text-black font-medium lg:block">
           Dashboard
         </h5>
         <button className="w-12 h-16 -mr-2 border-r lg:hidden">
@@ -25,13 +25,6 @@ export const TopMenu = () => {
               />
             </div>
           </div>
-
-          <button className="flex items-center justify-center w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200 md:hidden">
-            <CiSearch />
-          </button>
-          <button className="flex items-center justify-center w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
-            <CiChat1 size={25} />
-          </button>
         </div>
       </div>
     </div>
