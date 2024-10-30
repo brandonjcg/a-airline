@@ -45,7 +45,8 @@ export const Sidebar = async () => {
               src="/aairline.png"
               width={150}
               height={150}
-              alt="tailus logo"
+              alt="airline logo"
+              priority
             />
           </Link>
         </div>

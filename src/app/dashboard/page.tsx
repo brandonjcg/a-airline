@@ -1,11 +1,7 @@
 import { redirect } from 'next/navigation';
-import { getUserServerSession } from '@/auth/actions/auth-actions';
-import { Table } from '../components';
-
-export const metadata = {
-  title: 'Dashboard',
-  layout: 'dashboard',
-};
+import { getUserServerSession } from '@/auth';
+import { DataTable } from '../components';
+import { columns } from './columns';
 
 export default async function Dashboard() {
   const user = await getUserServerSession();
@@ -13,7 +9,7 @@ export default async function Dashboard() {
 
   return (
     <>
-      <Table />
+      <DataTable columns={columns} requiredPagination={false} />
     </>
   );
 }
