@@ -9,6 +9,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { getPageData } from '@/app/request';
+import { useSearchParams } from 'next/navigation';
 
 export function DataTable<T>({
   columns,
@@ -17,6 +18,9 @@ export function DataTable<T>({
   columns: ColumnDef<T>[];
   requiredPagination?: boolean;
 }) {
+  const searchParams = useSearchParams();
+  const refreshTime = Number(searchParams.get('refresh')) || 5;
+
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -64,6 +68,16 @@ export function DataTable<T>({
 
     fetchData();
   }, [pageIndex, pageSize]);
+
+  useEffect(() => {
+    const isLastPage = pageIndex === table.getPageCount() - 1;
+    const interval = setInterval(() => {
+      if (isLastPage) return table.setPageIndex(0);
+
+      table.nextPage();
+    }, refreshTime * 1000);
+    return () => clearInterval(interval);
+  }, [pageIndex, refreshTime, table]);
 
   return (
     <>
