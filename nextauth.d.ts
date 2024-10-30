@@ -6,7 +6,7 @@ interface IUser extends DefaultUser {
   /**
    * Roles del usuario
    */
-  roles: string[];
+  roles?: string[];
   /**
    * Agregar cualquier otro campo que tu manejas
    */
@@ -18,4 +18,8 @@ declare module 'next-auth' {
   interface Session {
     user?: User;
   }
+}
+
+declare module 'next-auth/jwt' {
+  type JWT = IUser;
 }
