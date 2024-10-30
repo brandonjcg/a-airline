@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
+import { Types } from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
-import { flightSeed, seedCatalog } from '@/lib/seed';
+import { buildPaginationResponse, buildPaginationToMongoose } from '@/app';
+import { arrayOf100Positions, seedCatalog } from '@/lib/seed';
 import Flight from '@/models/Flight';
 import Seed from '@/models/Seed';
-import { buildPaginationResponse, buildPaginationToMongoose } from '@/app';
+
+const { ObjectId } = Types;
 
 export async function GET() {
   try {
@@ -32,8 +35,25 @@ export async function POST() {
   try {
     await connectDB();
 
+    const currentDate = new Date();
     await Flight.deleteMany({});
-    await Flight.insertMany(flightSeed);
+    await Flight.insertMany(
+      arrayOf100Positions.map((flight, index) => {
+        const departureTime = new Date(
+          new Date(currentDate).setMinutes(currentDate.getMinutes() + index),
+        );
+        const arrivalTime = new Date(
+          new Date(departureTime).setHours(departureTime.getHours() + 1),
+        );
+
+        return new Flight({
+          _id: new ObjectId(),
+          ...flight,
+          departureTime,
+          arrivalTime,
+        });
+      }),
+    );
     await Seed.deleteMany({});
     await Seed.insertMany(seedCatalog);
 

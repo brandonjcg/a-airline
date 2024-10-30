@@ -37,6 +37,8 @@ export const columns: ColumnDef<IFlight>[] = [
     header: 'Pilots',
     cell: ({ getValue }) => {
       const pilots = getValue() as IUser[];
+      if (!pilots.length) return 'John Smith';
+
       return pilots.map((pilot) => pilot.name).join(', ');
     },
   },

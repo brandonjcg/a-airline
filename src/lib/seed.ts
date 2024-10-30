@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { ISeed } from '@/models';
-import Flight, { IFlightNew } from '@/models/Flight';
+import { IFlightNew } from '@/models/Flight';
 
 const { ObjectId } = Types;
 
@@ -66,7 +66,7 @@ export const seedCatalog: ISeed[] = [
 
 const currentDate = new Date();
 
-const arrayOf100Positions: IFlightNew[] = Array.from(
+export const arrayOf100Positions: IFlightNew[] = Array.from(
   { length: 87 },
   (_, index) => {
     const originCode = index % 2 === 0 ? 'LAX' : 'GDL';
@@ -84,12 +84,4 @@ const arrayOf100Positions: IFlightNew[] = Array.from(
       status: new ObjectId(status),
     } as IFlightNew;
   },
-);
-
-export const flightSeed = arrayOf100Positions.map(
-  (flight) =>
-    new Flight({
-      _id: new ObjectId(),
-      ...flight,
-    }),
 );

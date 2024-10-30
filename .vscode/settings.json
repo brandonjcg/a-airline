@@ -5,6 +5,7 @@
         "database",
         "api",
         "auth",
-        "flight"
+        "flight",
+        "components"
     ]
 }

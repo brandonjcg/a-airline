@@ -4,6 +4,7 @@ import Flight, { IFlightNew, seedSchema } from '@/models/Flight';
 import {
   buildPaginationResponse,
   buildPaginationToMongoose,
+  operationTimestamp,
   validationOfModelWithZod,
 } from '@/app';
 import { EnumStatus } from '@/lib/seed';
@@ -21,13 +22,21 @@ export async function GET(request: NextRequest) {
       page: params.get('page'),
       pageSize: params.get('limit'),
     });
+    const currentDate = new Date();
+    const date0 = operationTimestamp({ date: currentDate, isAddition: false });
+    const date1 = operationTimestamp({ date: currentDate, isAddition: true });
     const data = await Flight.find()
       .populate('status', 'name color')
       .populate('pilots', 'name')
       .skip(page)
       .limit(pageSize)
-      .sort({ createdAt: -1 });
-    const rows = await Flight.countDocuments();
+      .sort({ departureTime: -1 })
+      .where({
+        departureTime: { $gte: date0, $lte: date1 },
+      });
+    const rows = (await Flight.countDocuments().where({
+      departureTime: { $gte: date0, $lte: date1 },
+    })) as number;
 
     return NextResponse.json(
       buildPaginationResponse({
