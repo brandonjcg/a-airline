@@ -4,10 +4,15 @@ interface Props {
   url: string;
   page: number;
   size: number;
+  query?: Record<string, string | boolean>;
 }
 
-export const getPageData = async <T>({ url, page, size }: Props) => {
-  const fullUrl = `${url}?page=${page}&limit=${size}`;
+export const getPageData = async <T>({ url, page, size, query }: Props) => {
+  let fullUrl = `${url}?page=${page}&limit=${size}`;
+  if (query)
+    Object.keys(query).forEach((key) => {
+      fullUrl += `&${key}=${query[key]}`;
+    });
 
   const response = await fetch(fullUrl);
 

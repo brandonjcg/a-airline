@@ -12,6 +12,11 @@ const menuItems = [
     path: '/dashboard',
   },
   {
+    icon: <IoAirplaneOutline size={30} />,
+    title: 'Flights',
+    path: '/dashboard/flights',
+  },
+  {
     icon: <IoPersonOutline size={30} />,
     title: 'Admin',
     path: '/dashboard/profile',

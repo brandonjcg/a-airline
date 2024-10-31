@@ -13,10 +13,16 @@ import { useSearchParams } from 'next/navigation';
 
 export function DataTable<T>({
   columns,
+  url,
+  query,
   requiredPagination = true,
+  isAutoRefreshEnabled = false,
 }: {
   columns: ColumnDef<T>[];
   requiredPagination?: boolean;
+  url: string;
+  isAutoRefreshEnabled?: boolean;
+  query?: Record<string, string | boolean>;
 }) {
   const searchParams = useSearchParams();
   const refreshTime = Number(searchParams.get('refresh')) || 5;
@@ -54,9 +60,10 @@ export function DataTable<T>({
     const fetchData = async () => {
       try {
         const data = await getPageData<T>({
-          url: 'api/flight',
+          url,
           page: pageIndex,
           size: pageSize,
+          query,
         });
 
         setTblData(data.data as T[]);
@@ -67,9 +74,11 @@ export function DataTable<T>({
     };
 
     fetchData();
-  }, [pageIndex, pageSize]);
+  }, [pageIndex, pageSize, url]);
 
   useEffect(() => {
+    if (!isAutoRefreshEnabled) return;
+
     const isLastPage = pageIndex === table.getPageCount() - 1;
     const interval = setInterval(() => {
       if (isLastPage) return table.setPageIndex(0);
@@ -77,7 +86,7 @@ export function DataTable<T>({
       table.nextPage();
     }, refreshTime * 1000);
     return () => clearInterval(interval);
-  }, [pageIndex, refreshTime, table]);
+  }, [pageIndex, refreshTime, table, isAutoRefreshEnabled]);
 
   return (
     <>
