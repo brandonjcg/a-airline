@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getUserServerSession } from '@/auth/actions/auth-actions';
-import { IoAirplaneOutline, IoPersonOutline } from 'react-icons/io5';
+import { IoAirplaneOutline } from 'react-icons/io5';
 import { LogoutButton } from './LogoutButton';
 import { SidebarItem } from './SidebarItem';
 
@@ -16,11 +16,11 @@ const menuItems = [
     title: 'Flights',
     path: '/dashboard/flights',
   },
-  {
-    icon: <IoPersonOutline size={30} />,
-    title: 'Admin',
-    path: '/dashboard/profile',
-  },
+  // {
+  //   icon: <IoPersonOutline size={30} />,
+  //   title: 'Admin',
+  //   path: '/dashboard/profile',
+  // },
 ];
 
 export const Sidebar = async () => {
