@@ -85,3 +85,66 @@ export const arrayOf100Positions: IFlightNew[] = Array.from(
     } as IFlightNew;
   },
 );
+
+export const flightsCancelled: IFlightNew[] = [
+  {
+    ...arrayOf100Positions[0],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[1],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[1],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[2],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[13],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[10],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[11],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[11],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[12],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+  {
+    ...arrayOf100Positions[3],
+    status: new ObjectId(EnumStatus.Cancelled),
+    departureTime: new Date('2024-08-01T10:00:00.000Z'),
+    arrivalTime: new Date('2024-08-01T13:00:00.000Z'),
+  },
+];

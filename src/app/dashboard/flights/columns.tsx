@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { IFlight } from '@/models/Flight';
 import { ISeed, IUser } from '@/models';
 import { formatDate } from '../../common';
+import { IFlightsAdmin } from '@/app/types/flight';
 
 export const columns: ColumnDef<IFlight>[] = [
   {
@@ -58,19 +59,21 @@ export const columns: ColumnDef<IFlight>[] = [
     accessorKey: 'actions',
     header: 'Actions',
     cell: ({ row }) => {
-      // const flight = row.original as IFlightsAdmin;
-      // const isEditable = flight.isDeleteable;
+      const flight = row.original as IFlightsAdmin;
+      const isEditable = flight.isDeleteable;
 
       return (
-        <button
-          onClick={() => {
-            // TODO: delete
-            alert(`Deleting... ${row.original._id}`);
-          }}
-          className="btn btn-danger"
-        >
-          Delete
-        </button>
+        isEditable && (
+          <button
+            onClick={() => {
+              // TODO: delete
+              alert(`Deleting... ${row.original._id}`);
+            }}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
+        )
       );
     },
   },

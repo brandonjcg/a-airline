@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Types } from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import { buildPaginationResponse, buildPaginationToMongoose } from '@/app';
-import { arrayOf100Positions, seedCatalog } from '@/lib/seed';
+import { arrayOf100Positions, flightsCancelled, seedCatalog } from '@/lib/seed';
 import Flight from '@/models/Flight';
 import Seed from '@/models/Seed';
 
@@ -51,6 +51,14 @@ export async function POST() {
           ...flight,
           departureTime,
           arrivalTime,
+        });
+      }),
+    );
+    await Flight.insertMany(
+      flightsCancelled.map((flight) => {
+        return new Flight({
+          _id: new ObjectId(),
+          ...flight,
         });
       }),
     );
